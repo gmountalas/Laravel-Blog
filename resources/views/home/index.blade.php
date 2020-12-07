@@ -3,5 +3,6 @@
 @section('title', 'Home page')
 
 @section('content')
-    <h1>Hello World</h1>   
+    <h1>Hello World</h1>  
+    <p> Hello from Home Page</p> 
 @endsection
