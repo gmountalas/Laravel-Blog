@@ -3,7 +3,7 @@
     <input type="text" id="title" name="title" class="form-control" value="{{ old('title', optional($post ?? null)->title) }}">
 </div>
 @error('title')
-    {{ $message }}
+    <div class="alert alert-danger">{{ $message }}</div>
 @enderror
 <div class="form-group">
     <label for="content">Content</label>
@@ -13,10 +13,10 @@
     {{ $message }}
 @enderror
 @if ($errors->any())
-    <div>
-        <ul>
+    <div class="mb-3">
+        <ul class="list-group">
             @foreach ($errors->all() as $error)
-                <li> {{ $error }} </li>
+                <li class="list-group-item list-group-item-danger"> {{ $error }} </li>
             @endforeach
         </ul>
     </div>
