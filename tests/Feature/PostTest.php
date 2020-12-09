@@ -42,14 +42,31 @@ class PostTest extends TestCase
         ]);
     }
     public function testStoreValid()
-        {
-            $parameters = [
-                'title' => 'Valid title',
-                'content' => "More than 10 characters"
-            ];
+    {
+        $parameters = [
+            'title' => 'Valid title',
+            'content' => "More than 10 characters"
+        ];
 
-            $this->post('/posts', $parameters)->assertStatus(302)->assertSessionHas('status');
+        $this->post('/posts', $parameters)->assertStatus(302)->assertSessionHas('status');
 
-            $this->assertEquals(session('status'),'The blog post was created!');
-        }
+        $this->assertEquals(session('status'),'The blog post was created!');
+    }
+
+    // Testing for failure
+    public function testStoreFail()
+    {
+        // Parameters don't pass the validation rquirements
+        $parameters = [
+            'title' => 'x',
+            'content' => 'x'
+        ];
+
+        $this->post('/posts', $parameters)->assertStatus(302)->assertSessionHas('errors');
+        
+        $messages = session('errors')->getMessages();
+        
+        $this->assertEquals($messages['title'][0], 'The title must be at least 5 characters.');
+        $this->assertEquals($messages['content'][0], 'The content must be at least 10 characters.');
+    }
 }
