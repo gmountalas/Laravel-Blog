@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\BlogPost;
+use App\Models\Comment;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 // use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -51,6 +52,22 @@ class PostTest extends TestCase
             'title' => 'New title'
         ]);
     }
+
+    public function testSee1BlogPostWithComments() {
+        // Arrange
+        $post = $this->createDummyBlogPost();
+        Comment::factory(4)->create([
+            'blog_post_id' => $post->id
+        ]);
+
+        // Act
+        $response = $this->get('/posts');
+
+        // Assert
+        $response->assertSeeText('4 comments');
+
+    }
+
     public function testStoreValid()
     {
         $parameters = [
