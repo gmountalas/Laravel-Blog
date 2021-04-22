@@ -47,7 +47,14 @@ class PostsController extends Controller
 
         // dd(DB::getQueryLog());
 
-        return view('posts.index', ['posts' => BlogPost::all()]);
+        // Replace BlogPost::all() with withCount('comments')->get()
+        // comments is the name of the Eloquent Relation in BlogPost Model
+        // it will return a new property comments_count (relationshipName_count)
+        // which will contain the number of related models/instances for a particular BlogPost.
+        return view(
+            'posts.index', 
+            ['posts' => BlogPost::withCount('comments')->get()]
+        );
         // return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->get()]);
     }
 
