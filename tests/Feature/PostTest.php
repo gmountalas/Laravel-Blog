@@ -27,12 +27,14 @@ class PostTest extends TestCase
     private function createDummyBlogPost(): BlogPost
     {
         // Create BlogPost with dummy data
-        $post = new BlogPost();
-        $post->title = 'New title';
-        $post->content = 'Blog post content';
-        $post->save();
+        // Replace the following with Model Factory from BlogPostFactory
+        // $post = new BlogPost();
+        // $post->title = 'New title';
+        // $post->content = 'Blog post content';
+        // $post->save();
+        // return $post;
 
-        return $post;
+        return BlogPost::factory()->newTitle()->create();
     }
 
     public function testSeeOneBlogPostWhereThereIsOne()
