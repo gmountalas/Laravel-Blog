@@ -23,7 +23,7 @@
     @endif
     
     {{-- Implement the comments list --}}
-    <h4>Commnents</h4>
+    <h4>Comments</h4>
     @forelse ($post->comments as $comment)
         <p>
             {{ $comment->content }} 
