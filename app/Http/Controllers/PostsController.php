@@ -117,7 +117,8 @@ class PostsController extends Controller
         // return view('posts.show', ['post' => $this->posts[$id]]);
 
         // Simplified of the above
-        return view('posts.show', ['post' => BlogPost::findOrFail($id)]);
+        // Pass a BlogPost along with it's comments to the show view
+        return view('posts.show', ['post' => BlogPost::with('comments')->findOrFail($id)]);
     }
 
     /**
