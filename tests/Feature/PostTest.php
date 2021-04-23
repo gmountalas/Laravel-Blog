@@ -70,6 +70,25 @@ class PostTest extends TestCase
 
     }
 
+    // 
+    public function testSeeBlogPostContentThatHasComments() {
+        // Arrange
+        $post = $this->createDummyBlogPost();
+        $comment = Comment::factory()->create([
+            'blog_post_id' => $post->id
+        ]);
+
+        // Act
+        $response = $this->get('/posts/' . $post->id);
+
+        // Assert
+        $response->assertSeeText('New title');
+        $response->assertSeeText('Blog post content');
+        $response->assertSeeText('Comments');
+        $response->assertSeeText($comment->content);
+        $response->assertSeeText('added');
+    }
+
     public function testStoreValid()
     {
         $parameters = [
