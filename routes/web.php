@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomesController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\PostsController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,8 @@ Route::get('/single', AboutController::class);
 // Route for Resource Controller - PostsController. After we use only to choose the index methods and show
 Route::resource('posts', PostsController::class);
     // ->only(['index', 'show', 'create', 'store', 'edit', 'update']);
+
+Auth::routes();
 
 // Route::get('/posts', function () use($posts){
 //     // dd(request()->all());
