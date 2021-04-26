@@ -91,12 +91,22 @@ class PostTest extends TestCase
 
     public function testStoreValid()
     {
+        // // Create a User
+        // $user = $this->user();
+
+        // // Authenticate as the user 
+        // $this->actingAs($user);
+
         $parameters = [
             'title' => 'Valid title',
             'content' => "More than 10 characters"
         ];
-
-        $this->post('/posts', $parameters)->assertStatus(302)->assertSessionHas('status');
+        // Replace the above Create a user and Authenticate as the user
+        // with actingAs($this->user())
+        $this->actingAs($this->user())
+            ->post('/posts', $parameters)
+            ->assertStatus(302)
+            ->assertSessionHas('status');
 
         $this->assertEquals(session('status'),'The blog post was created!');
     }
@@ -110,7 +120,10 @@ class PostTest extends TestCase
             'content' => 'x'
         ];
 
-        $this->post('/posts', $parameters)->assertStatus(302)->assertSessionHas('errors');
+        $this->actingAs($this->user())
+            ->post('/posts', $parameters)
+            ->assertStatus(302)
+            ->assertSessionHas('errors');
         
         $messages = session('errors')->getMessages();
         
@@ -133,7 +146,10 @@ class PostTest extends TestCase
         ];
 
         // Put request to modify the blog post with dummy parameters
-        $this->put("/posts/{$post->id}", $parameters)->assertStatus(302)->assertSessionHas('status');
+        $this->actingAs($this->user())
+            ->put("/posts/{$post->id}", $parameters)
+            ->assertStatus(302)
+            ->assertSessionHas('status');
 
         // Assert that the status is there
         $this->assertEquals(session('status'),'Blog post was updated!');
@@ -156,7 +172,10 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('blog_posts', $post->getAttributes());
 
         // Delete request to delete the blog post with dummy parameters
-        $this->delete("/posts/{$post->id}")->assertStatus(302)->assertSessionHas('status');
+        $this->actingAs($this->user())
+            ->delete("/posts/{$post->id}")
+            ->assertStatus(302)
+            ->assertSessionHas('status');
 
         // Assert that the original dummy blogpost is no longer in the database after deletion
         $this->assertDatabaseMissing('blog_posts', $post->getAttributes());
