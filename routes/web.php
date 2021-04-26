@@ -31,7 +31,10 @@ use Illuminate\Support\Facades\Route;
 // Simplified routes of the above, if you don't have any extra parameters or do any extra work, with the use of Route::view (view is a static method of Route class)
 
 // Routes with Controllers
-Route::get('/', [HomesController::class, 'home'])->name('home.index');
+Route::get('/', [HomesController::class, 'home'])
+    ->name('home.index')
+    // ->middleware('auth')
+    ;
 Route::get('/contact', [HomesController::class, 'contact'])->name('home.contact');
 
 // Single Action Controller, don't need to add array [<NameController::class>, 'method/action']
