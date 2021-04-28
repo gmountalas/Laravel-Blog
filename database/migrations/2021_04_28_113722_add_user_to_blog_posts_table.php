@@ -18,6 +18,7 @@ class AddUserToBlogPostsTable extends Migration
 
             // $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('user_id')
+                ->nullable()
                 ->constrained('users');
         });
     }

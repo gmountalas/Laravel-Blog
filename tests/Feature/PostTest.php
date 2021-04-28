@@ -178,7 +178,8 @@ class PostTest extends TestCase
             ->assertSessionHas('status');
 
         // Assert that the original dummy blogpost is no longer in the database after deletion
-        $this->assertDatabaseMissing('blog_posts', $post->getAttributes());
+        // $this->assertDatabaseMissing('blog_posts', $post->getAttributes());
+        $this->assertSoftDeleted('blog_posts', $post->getAttributes());
 
         // Assert that the blogpost was deleted status is there
         $this->assertEquals(session('status'),'Blog post was deleted!');
