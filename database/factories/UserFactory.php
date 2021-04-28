@@ -30,4 +30,14 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ];
     }
+
+    // Method to use state for specific data in the users table
+    public function johnDoe() {
+        return $this->state(function (array $attributes) {
+            return [
+                'name' => 'John Doe',
+                'email' => 'john@laravel.test',
+            ];
+        });
+    }
 }
