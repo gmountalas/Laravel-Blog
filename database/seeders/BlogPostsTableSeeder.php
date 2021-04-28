@@ -20,6 +20,8 @@ class BlogPostsTableSeeder extends Seeder
         // his id and then assign it to the user_id foreign key and save the blogpost
         $users = User::all();
         
+        $commentsCount = $this->command->ask('How many blog posts would you like', 50);
+
         BlogPost::factory()->count(50)->make()->each(function($post) use ($users) {
             $post->user_id = $users->random()->id;
             $post->save();
