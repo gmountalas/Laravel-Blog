@@ -22,7 +22,7 @@ class BlogPostsTableSeeder extends Seeder
         
         $commentsCount = $this->command->ask('How many blog posts would you like', 50);
 
-        BlogPost::factory()->count(50)->make()->each(function($post) use ($users) {
+        BlogPost::factory()->count($commentsCount)->make()->each(function($post) use ($users) {
             $post->user_id = $users->random()->id;
             $post->save();
         });

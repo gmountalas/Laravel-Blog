@@ -20,4 +20,22 @@ class BlogPost extends Model
     {
         return $this->hasMany('App\Models\Comment');
     }
+
+    public static function boot() 
+    {
+        parent::boot();
+
+        // Soft delete the child relations (comments) of the BlogPost Model
+        // when a BlogPost instance is deleted
+        static::deleting(function (BlogPost $blogPost) {
+            $blogPost->comments()->delete();
+        });
+
+        // Restore from soft deletion the child relation (comments) of the
+        // BlogPost Model when a BlogPost instance is restored
+        static::restoring(function (BlogPost $blogPost) {
+            $blogPost->comments()->restore();
+        });
+    }
+
 }
