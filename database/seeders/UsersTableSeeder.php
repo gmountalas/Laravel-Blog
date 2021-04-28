@@ -14,10 +14,12 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        // Ask the user the number of users to be created, at least 1
+        $usersCount = max((int) $this->command->ask('How many users would you like?', 20), 1);
         // Object of App\Models\User class
         User::factory()->johnDoe()->create();
 
         // Eloquent Collection
-        User::factory()->count(20)->create();
+        User::factory()->count($usersCount)->create();
     }
 }
