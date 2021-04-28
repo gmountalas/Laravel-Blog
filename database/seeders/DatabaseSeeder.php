@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\BlogPost;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,17 +18,29 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         
-        // Replace the following with a Factory call with state 
-        // DB::table('users')->insert([
-        //     'name' => 'John Doe',
-        //     'email' => 'john@laravel.test',
-        //     'email_verified_at' => now(),
-        //     'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        //     'remember_token' => Str::random(10),
-        // ]);
+        // Object of App\Models\User class
+        $doe = User::factory()->johnDoe()->create();
 
-        User::factory()->johnDoe()->create();
+        // Eloquent Collection
+        $others = User::factory()->count(20)->create();
 
-        User::factory()->count(20)->create();
+        // Add $doe to the Collection
+        $users = $others->concat([$doe]);
+
+        // Make 50 blogposts to associate with users, iterate over each post,
+        // use $users variable outside of function scope, pick a random user and
+        // his id and then assign it to the user_id foreign key and save the blogpost
+        $posts = BlogPost::factory()->count(50)->make()->each(function($post) use ($users) {
+            $post->user_id = $users->random()->id;
+            $post->save();
+        });
+
+        // Make 150 comments to associate with blogposts, iterate over each comment,
+        // use $posts variable outside of function scope, pick a random blogpost and
+        // its id and then assign it to the blog_post_id foreign key and save the comment
+        $comments = Comment::factory()->count(150)->make()->each(function($comment) use ($posts) {
+            $comment->blog_post_id = $posts->random()->id;
+            $comment->save();
+        });
     }
 }
