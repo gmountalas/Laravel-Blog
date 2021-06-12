@@ -138,11 +138,15 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = BlogPost::findOrFail($id);
+
         // Check if a user (automatically passed from Laravel) can
-        // update a post
-        if(Gate::denies('update-post', $post)) {
-            abort(403, "You can't edit this blog post");
-        }
+        // edit a post
+        // if(Gate::denies('update-post', $post)) {
+        //     abort(403, "You can't edit this blog post");
+        // }
+
+        // Replace the above Gate
+        $this->authorize('update-post', $post);
 
         return view('posts.edit', ['post' => $post]);
     }
@@ -160,9 +164,12 @@ class PostsController extends Controller
 
         // Check if a user (automatically passed from Laravel) can
         // update a post
-        if(Gate::denies('update-post', $post)) {
-            abort(403, "You can't edit this blog post");
-        }
+        // if(Gate::denies('update-post', $post)) {
+        //     abort(403, "You can't edit this blog post");
+        // }
+
+        // Replace the above Gate
+        $this->authorize('update-post', $post);
 
         $validated = $request->validated();
         $post->fill($validated);
@@ -182,6 +189,15 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = BlogPost::findOrFail($id);
+
+        // Check if a user (automatically passed from Laravel) can
+        // delete a post
+        // if(Gate::denies('update-post', $post)) {
+        //     abort(403, "You can't delete this blog post");
+        // }
+
+        // Replace the above Gate
+        $this->authorize('delete-post', $post);
         $post->delete();
 
         session()->flash('status', 'Blog post was deleted!');

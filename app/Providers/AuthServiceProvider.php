@@ -32,5 +32,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update-post', function(User $user,BlogPost $post) {
             return $user->id == $post->user_id;
         });
+
+        // Gate to check if a user is Authorized to delete a blogpost
+        // use it in the PostsController
+        Gate::define('delete-post', function(User $user,BlogPost $post) {
+            return $user->id == $post->user_id;
+        });
     }
 }
