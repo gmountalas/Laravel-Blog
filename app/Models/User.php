@@ -40,4 +40,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Eloquent relationship 1-to-many with BlogPost Model
+    public function blogPosts()
+    {
+        return $this->hasMany(BlogPost::class);
+    }
 }

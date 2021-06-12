@@ -21,6 +21,12 @@ class BlogPost extends Model
         return $this->hasMany('App\Models\Comment');
     }
 
+    // Eloquent relationship 1-to-many with User Model
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public static function boot() 
     {
         parent::boot();
