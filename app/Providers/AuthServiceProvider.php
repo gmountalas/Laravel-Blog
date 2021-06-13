@@ -38,5 +38,19 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-post', function(User $user,BlogPost $post) {
             return $user->id == $post->user_id;
         });
+
+        // overriding / intercepting the Gate check to allow actions for
+        // users with is_admin field = 1 (true)
+        Gate::before(function(User $user, $ability) {
+            if ($user->is_admin && in_array($ability, ['update-post'])) {
+                return true;
+            }
+        });
+        // Called after the checks, can modify the result of the Gate check
+        // Gate::after(function(User $user, $ability, $result) {
+        //     if ($user->is_admin) {
+        //         return true;
+        //     }
+        // });
     }
 }
