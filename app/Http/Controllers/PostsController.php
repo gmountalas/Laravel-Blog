@@ -100,7 +100,8 @@ class PostsController extends Controller
         // $post->save();
 
         $validated = $request->validated();
-        
+        $validated['user_id'] = $request->user()->id;
+
         // Replaced with Model Mass Assignment
         // $post = new BlogPost();
         // $post->title = $validated['title'];
