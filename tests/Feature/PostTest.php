@@ -24,7 +24,7 @@ class PostTest extends TestCase
         $response->assertSeeText('No posts found!');
     }
 
-    private function createDummyBlogPost(): BlogPost
+    private function createDummyBlogPost($userId = null): BlogPost
     {
         // Create BlogPost with dummy data
         // Replace the following with Model Factory from BlogPostFactory
@@ -34,7 +34,9 @@ class PostTest extends TestCase
         // $post->save();
         // return $post;
 
-        return BlogPost::factory()->newTitle()->create();
+        return BlogPost::factory()->newTitle()->create([
+            'user_id' => $userId ?? $this->user()->id,
+        ]);
     }
 
     public function testSeeOneBlogPostWhereThereIsOne()
@@ -134,7 +136,8 @@ class PostTest extends TestCase
     public function testUpdateValid()
     {
         // Arrange
-        $post = $this->createDummyBlogPost();
+        $user = $this->user();
+        $post = $this->createDummyBlogPost($user->id);
 
         // Assert - Verify the blogpost exists inside the database
         $this->assertDatabaseHas('blog_posts', $post->getAttributes());
@@ -146,7 +149,7 @@ class PostTest extends TestCase
         ];
 
         // Put request to modify the blog post with dummy parameters
-        $this->actingAs($this->user())
+        $this->actingAs($user)
             ->put("/posts/{$post->id}", $parameters)
             ->assertStatus(302)
             ->assertSessionHas('status');
@@ -166,13 +169,14 @@ class PostTest extends TestCase
     public function testDelete()
     {
         // Arrange
-        $post = $this->createDummyBlogPost();
+        $user = $this->user();
+        $post = $this->createDummyBlogPost($user->id);
 
         // ASsert that the BlogPost was actually stored in the database
         $this->assertDatabaseHas('blog_posts', $post->getAttributes());
 
         // Delete request to delete the blog post with dummy parameters
-        $this->actingAs($this->user())
+        $this->actingAs($user)
             ->delete("/posts/{$post->id}")
             ->assertStatus(302)
             ->assertSessionHas('status');
