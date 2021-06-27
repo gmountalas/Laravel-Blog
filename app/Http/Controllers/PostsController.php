@@ -41,8 +41,10 @@ class PostsController extends Controller
         // it will return a new property comments_count (relationshipName_count)
         // which will contain the number of related models/instances for a particular BlogPost.
         return view(
-            'posts.index', 
-            ['posts' => BlogPost::newest()->withCount('comments')->get()]
+            'posts.index', [
+                'posts' => BlogPost::newest()->withCount('comments')->get(),
+                'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
+            ]
         );
         // return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->get()]);
     }
@@ -115,7 +117,7 @@ class PostsController extends Controller
         //     }])->findOrFail($id)
         // ]);
         return view('posts.show', [
-            'post' => BlogPost::with('comments')->findOrFail($id)
+            'post' => BlogPost::with('comments')->findOrFail($id),
         ]);
     }
 
