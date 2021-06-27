@@ -42,7 +42,7 @@ class PostsController extends Controller
         // which will contain the number of related models/instances for a particular BlogPost.
         return view(
             'posts.index', 
-            ['posts' => BlogPost::withCount('comments')->get()]
+            ['posts' => BlogPost::newest()->withCount('comments')->get()]
         );
         // return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->get()]);
     }
@@ -109,7 +109,14 @@ class PostsController extends Controller
 
         // Simplified of the above
         // Pass a BlogPost along with it's comments to the show view
-        return view('posts.show', ['post' => BlogPost::with('comments')->findOrFail($id)]);
+        // return view('posts.show', [
+        //     'post' => BlogPost::with(['comments' => function ($query) {
+        //         return $query->newest();
+        //     }])->findOrFail($id)
+        // ]);
+        return view('posts.show', [
+            'post' => BlogPost::with('comments')->findOrFail($id)
+        ]);
     }
 
     /**
