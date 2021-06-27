@@ -56,11 +56,11 @@ class AuthServiceProvider extends ServiceProvider
 
         // overriding / intercepting the Gate check to allow actions for
         // users with is_admin field = 1 (true)
-        // Gate::before(function(User $user, $ability) {
-        //     if ($user->is_admin && in_array($ability, ['update'])) {
-        //         return true;
-        //     }
-        // });
+        Gate::before(function(User $user, $ability) {
+            if ($user->is_admin && in_array($ability, ['update', 'delete'])) {
+                return true;
+            }
+        });
         // Called after the checks, can modify the result of the Gate check
         // Gate::after(function(User $user, $ability, $result) {
         //     if ($user->is_admin) {

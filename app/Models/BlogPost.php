@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\DeletedAdminScope;
 use App\Scopes\LatestScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,9 +43,11 @@ class BlogPost extends Model
 
     public static function boot() 
     {
+        // Must add this specifi Global query scope before the boot method
+        static::addGlobalScope(new DeletedAdminScope);
         parent::boot();
 
-        static::addGlobalScope(new LatestScope);
+        // static::addGlobalScope(new LatestScope);
 
         // Soft delete the child relations (comments) of the BlogPost Model
         // when a BlogPost instance is deleted
