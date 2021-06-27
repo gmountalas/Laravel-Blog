@@ -19,4 +19,9 @@ class HomesController extends Controller
     {
         return view('home.contact');
     }
+
+    public function secret()
+    {
+        return view('home.secret');
+    }
 }

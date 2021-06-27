@@ -29,6 +29,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('home.secret', function ($user) {
+            return $user->is_admin;
+        });
+
         // Gate to check if a user is Authorized to update a blogpost
         // use it in the PostsController
         // Gate::define('update-post', function(User $user,BlogPost $post) {

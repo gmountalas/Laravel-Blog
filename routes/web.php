@@ -37,6 +37,8 @@ Route::get('/', [HomesController::class, 'home'])
     ;
 Route::get('/contact', [HomesController::class, 'contact'])->name('home.contact');
 
+Route::get('/secret', [HomesController::class, 'secret'])
+    ->name('home.secret')->middleware('can:home.secret');
 // Single Action Controller, don't need to add array [<NameController::class>, 'method/action']
 Route::get('/single', AboutController::class);
 
