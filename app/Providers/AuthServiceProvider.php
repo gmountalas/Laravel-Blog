@@ -17,6 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        'App\Models\BlogPost' => BlogPostPolicy::class,
     ];
 
     /**
@@ -46,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         // Gate::define('posts.delete', [BlogPostPolicy::class, 'delete']);
 
 
-        Gate::resource('posts', BlogPostPolicy::class);
+        // Gate::resource('posts', BlogPostPolicy::class);
         // posts.create, posts.view, posts.update, posts.delete
 
         // overriding / intercepting the Gate check to allow actions for

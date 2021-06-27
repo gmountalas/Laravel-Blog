@@ -147,7 +147,7 @@ class PostsController extends Controller
         // }
 
         // Replace the above Gate
-        $this->authorize('update-post', $post);
+        $this->authorize('update', $post);
 
         return view('posts.edit', ['post' => $post]);
     }
@@ -170,7 +170,7 @@ class PostsController extends Controller
         // }
 
         // Replace the above Gate
-        $this->authorize('posts.update', $post);
+        $this->authorize('update', $post);
 
         $validated = $request->validated();
         $post->fill($validated);
@@ -198,7 +198,7 @@ class PostsController extends Controller
         // }
 
         // Replace the above Gate
-        $this->authorize('posts.delete', $post);
+        $this->authorize('delete', $post);
         $post->delete();
 
         session()->flash('status', 'Blog post was deleted!');
