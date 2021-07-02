@@ -4,21 +4,16 @@
 
 @section('content')
 
-    <h1>{{ $post->title }}</h1>
+    <h1>
+        {{ $post->title }}
+        <x-badge show="{{ now()->diffInMinutes($post->created_at) < 5  }}" type="primary">
+            Brand New BlogPost
+        </x-badge>
+    </h1>
     <p>{{ $post->content }} </p> 
     <p> Added {{ $post->created_at->diffForHumans() }}</p>
     
-    @if (now()->diffInMinutes($post->created_at) < 5)
-        {{-- Old way --}}
-        {{-- @component('components.badge', ['type' => 'primary'])
-            New!
-        @endcomponent --}}
-        
-        {{-- Laravel 8 way --}}
-        <x-badge type="primary">
-            New
-        </x-badge>
-    @endif
+   
     
     {{-- Implement the comments list --}}
     <h4>Comments</h4>
