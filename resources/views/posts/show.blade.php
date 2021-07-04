@@ -18,6 +18,8 @@
         Updated
     </x-updated>
     
+    <p>Currently read by {{ $counter }} people</p>
+
     {{-- Implement the comments list --}}
     <h4>Comments</h4>
     @forelse ($post->comments as $comment)
