@@ -43,7 +43,7 @@ class PostsController extends Controller
         // which will contain the number of related models/instances for a particular BlogPost.
         return view(
             'posts.index', [
-                'posts' => BlogPost::newest()->withCount('comments')->with('user')->get(),
+                'posts' => BlogPost::newest()->withCount('comments')->with(['user', 'tags'])->get(),
                 'mostCommented' => $mostCommented,
                 'mostActive' => $mostActive,
                 'mostActiveLastMonth' => $mostActiveLastMonth,

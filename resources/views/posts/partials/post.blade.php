@@ -12,6 +12,8 @@
 <x-updated :date="$post->created_at" :name="$post->user->name" >
 </x-updated>
 
+<x-tags :tags="$post->tags"></x-tags>
+
 @if ($post->comments_count)
     <p> {{ $post->comments_count }} comments</p>
 @else

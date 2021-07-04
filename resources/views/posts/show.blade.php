@@ -17,6 +17,8 @@
     <x-updated :date="$post->updated_at" >
         Updated
     </x-updated>
+
+    <x-tags :tags="$post->tags"></x-tags>
     
     <p>Currently read by {{ $counter }} people</p>
 
