@@ -9,7 +9,7 @@ class Tag extends Model
 {
     use HasFactory;
 
-    public function BlogPosts()
+    public function blogPosts()
     {
         return $this->belongsToMany(BlogPost::class)->withTimestamps();
     }
