@@ -6,7 +6,7 @@ use App\Http\Requests\StorePost;
 use App\Models\BlogPost;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 
 class PostsController extends Controller
@@ -25,18 +25,18 @@ class PostsController extends Controller
      */
     public function index()
     {
-        // DB::enableQueryLog();
-        // $posts = BlogPost::all(); // Lazy Loading
-        // $posts = BlogPost::with('comments')->get(); // Eager Loading
+        // Use cache on things that aren't going to change very often
+        $mostCommented = Cache::remember('mostCommented', 60, function () {
+            return BlogPost::mostCommented()->take(5)->get();
+        });
 
-        // foreach ($posts as $post) {
-        //     foreach ($post->comments as $comment) {
-        //         echo $comment->content;
-        //     }
-        // }
+        $mostActive = Cache::remember('mostActive', 60, function () {
+            return User::withMostBlogPosts()->take(5)->get();
+        });
 
-        // dd(DB::getQueryLog());
-
+        $mostActiveLastMonth = Cache::remember('mostActiveLastMonth', 60, function () {
+            return User::withMostBlogPostsLastMonth()->take(5)->get();
+        });
         // Replace BlogPost::all() with withCount('comments')->get()
         // comments is the name of the Eloquent Relation in BlogPost Model
         // it will return a new property comments_count (relationshipName_count)
@@ -44,9 +44,9 @@ class PostsController extends Controller
         return view(
             'posts.index', [
                 'posts' => BlogPost::newest()->withCount('comments')->with('user')->get(),
-                'mostCommented' => BlogPost::mostCommented()->take(5)->get(),
-                'mostActive' => User::withMostBlogPosts()->take(5)->get(),
-                'mostActiveLastMonth' => User::withMostBlogPostsLastMonth()->take(5)->get(),
+                'mostCommented' => $mostCommented,
+                'mostActive' => $mostActive,
+                'mostActiveLastMonth' => $mostActiveLastMonth,
             ]
         );
         // return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->get()]);
