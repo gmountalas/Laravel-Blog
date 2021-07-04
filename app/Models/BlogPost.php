@@ -31,6 +31,12 @@ class BlogPost extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Eloquent relationship many-to-many with Tag model
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class)->withTimestamps();
+    }
+
     public function scopeNewest(Builder $query)
     {
         return $query->orderBy(static::CREATED_AT, 'desc');
