@@ -25,28 +25,14 @@ class PostsController extends Controller
      */
     public function index()
     {
-        // Use cache on things that aren't going to change very often
-        $mostCommented = Cache::remember('blog-post-commented', 60, function () {
-            return BlogPost::mostCommented()->take(5)->get();
-        });
-
-        $mostActive = Cache::remember('user-most-active', 60, function () {
-            return User::withMostBlogPosts()->take(5)->get();
-        });
-
-        $mostActiveLastMonth = Cache::remember('users-most-active-last-month', 60, function () {
-            return User::withMostBlogPostsLastMonth()->take(5)->get();
-        });
         // Replace BlogPost::all() with withCount('comments')->get()
         // comments is the name of the Eloquent Relation in BlogPost Model
         // it will return a new property comments_count (relationshipName_count)
         // which will contain the number of related models/instances for a particular BlogPost.
         return view(
             'posts.index', [
-                'posts' => BlogPost::newest()->withCount('comments')->with(['user', 'tags'])->get(),
-                'mostCommented' => $mostCommented,
-                'mostActive' => $mostActive,
-                'mostActiveLastMonth' => $mostActiveLastMonth,
+                'posts' => BlogPost::newest()->withCount('comments')
+                            ->with(['user', 'tags'])->get(),
             ]
         );
         // return view('posts.index', ['posts' => BlogPost::orderBy('created_at', 'desc')->get()]);
