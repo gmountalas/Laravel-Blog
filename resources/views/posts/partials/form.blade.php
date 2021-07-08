@@ -12,7 +12,7 @@
 @error('content')
     {{ $message }}
 @enderror
-@if ($errors->any())
+{{-- @if ($errors->any())
     <div class="mb-3">
         <ul class="list-group">
             @foreach ($errors->all() as $error)
@@ -20,4 +20,5 @@
             @endforeach
         </ul>
     </div>
-@endif
+@endif --}}
+<x-errors></x-errors>
