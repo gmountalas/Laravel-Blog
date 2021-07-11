@@ -35,8 +35,8 @@ class Comment extends Model
         parent::boot();
 
         static::creating(function (Comment $comment) {
-            Cache::forget("blog-post-{$comment->blog_post_id}");
-            Cache::forget("mostCommented");
+            Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
+            Cache::tags(['blog-post'])->forget("mostCommented");
         });
 
         // static::addGlobalScope(new LatestScope);

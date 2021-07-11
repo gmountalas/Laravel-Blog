@@ -108,8 +108,9 @@ class PostsController extends Controller
 
         // Store in cache a blogPost, be sure to use event in booted method of
         // the Model to uncache it when changed. 
-        $blogPost = Cache::remember(`blog-post-{$id}`, 60, function () use ($id){
-            return BlogPost::with('comments')->findOrFail($id);
+        $blogPost = Cache::tags(['blog-post'])->remember(`blog-post-{$id}`, 60, function () use ($id){
+            return BlogPost::with('comments', 'tags', 'user', 'comments.user')
+            ->findOrFail($id);
         });
 
         // Implement a counter for how many people are currently on o blogPost
@@ -117,7 +118,7 @@ class PostsController extends Controller
         $counterKey = "blog-post-{$id}-counter";
         $usersKey = "blog-post-{$id}-users";
 
-        $users = Cache::get($usersKey, []);
+        $users = Cache::tags(['blog-post'])->get($usersKey, []);
         $usersUpdate = [];
         $difference = 0;
         $now = now();
@@ -139,14 +140,14 @@ class PostsController extends Controller
         }
 
         $usersUpdate[$sessionId] = $now;
-        Cache::forever($usersKey, $usersUpdate);
-        if (!Cache::has($counterKey)) {
-            Cache::forever($counterKey, 1);
+        Cache::tags(['blog-post'])->forever($usersKey, $usersUpdate);
+        if (!Cache::tags(['blog-post'])->has($counterKey)) {
+            Cache::tags(['blog-post'])->forever($counterKey, 1);
         } else {
-            Cache::increment($counterKey, $difference);
+            Cache::tags(['blog-post'])->increment($counterKey, $difference);
         }
 
-        $counter = Cache::get($counterKey);;
+        $counter = Cache::tags(['blog-post'])->get($counterKey);;
 
         return view('posts.show', [
             'post' => $blogPost,
