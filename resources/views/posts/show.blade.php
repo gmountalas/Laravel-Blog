@@ -12,6 +12,9 @@
                 </x-badge>
             </h1>
             <p>{{ $post->content }} </p> 
+
+            {{-- <img src="{{ Storage::url($post->image->path) }}" alt=""> --}}
+            <img src="{{ $post->image->url() }}" alt="">
             
             <x-updated :date="$post->created_at" :name="$post->user->name" >
             </x-updated>
