@@ -48,6 +48,13 @@ class BlogPost extends Model
         return $query->withCount('comments')->orderBy('comments_count', 'desc');
     }
 
+    public function scopeNewestWithRelations(Builder $query)
+    {
+        return $query->newest()
+            ->withCount('comments')
+            ->with(['user', 'tags']);
+    }
+
     public static function boot() 
     {
         // Must add this specifi Global query scope before the boot method
