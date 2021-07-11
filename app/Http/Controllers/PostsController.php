@@ -80,6 +80,22 @@ class PostsController extends Controller
         // $post->save();
         
         $post= Blogpost::create($validated);
+        
+        // Check if user has uploaded a file, on the input name="thumbnail"
+        $hasFile = $request->hasFile('thumbnail');
+        dump($hasFile);
+
+        if ($hasFile) {
+            $file = $request->file('thumbnail');
+            dump($file);
+            dump($file->getClientMimeType());
+            dump($file->getClientOriginalExtension());
+
+            // Store the file in the storage/app/public/thumbnails folder
+            $file->store('thumbnails');
+
+        }
+        die;
 
         $request->session()->flash('status', 'The blog post was created!');
 
