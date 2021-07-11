@@ -37,6 +37,12 @@ class BlogPost extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
+    // Eloquent relationship 1-to-1 with Image model
+    public function image()
+    {
+        return $this->hasOne(Image::class);
+    }
+
     public function scopeNewest(Builder $query)
     {
         return $query->orderBy(static::CREATED_AT, 'desc');
