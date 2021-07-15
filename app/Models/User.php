@@ -53,6 +53,12 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    // Eloquent relationship 1-to-1 Polymorphic with Image model: morphOne
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+
     public function scopeWithMostBlogPosts(Builder $query)
     {
         return $query->withCount('blogPosts')->orderBy('blog_posts_count', 'desc');

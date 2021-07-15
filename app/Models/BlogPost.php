@@ -37,10 +37,12 @@ class BlogPost extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
-    // Eloquent relationship 1-to-1 with Image model
+    // Eloquent relationship 1-to-1 with Image model: hasOne
+    // Eloquent relationship 1-to-1 Polymorphic with Image model: morphOne
     public function image()
     {
-        return $this->hasOne(Image::class);
+        // return $this->hasOne(Image::class);
+        return $this->morphOne(Image::class, 'imageable');
     }
 
     public function scopeNewest(Builder $query)

@@ -10,12 +10,15 @@ class Image extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['path', 'blog_post_id'];
+    // remove blog_post_id because of change to 1-to-1 polymorphic relation
+    protected $fillable = ['path' /*,'blog_post_id'*/];
 
-    // Eloquent relationship 1-to-1 with BlogPost model
-    public function blogPost()
+    // Eloquent relationship 1-to-1 with BlogPost model: blogPost
+    // Eloquent relationship 1-to-1 polymorphic with BlogPost model: imageable
+    public function imageable()
     {
-        return $this->belongsTo(BlogPost::class);
+        // return $this->belongsTo(BlogPost::class);
+        return $this->morphTo(BlogPost::class);
     }
 
     public function url()
