@@ -87,7 +87,9 @@ class PostsController extends Controller
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('thumbnails');
             $post->image()->save(
-                Image::create(['path' => $path])
+                // Image::create(['path' => $path]) // create is used for the 1-to-1 relation, 
+                                                    // for polymorphic there are 2 more columns:imageable
+                Image::make(['path' => $path])
             );
         }
 
@@ -218,7 +220,9 @@ class PostsController extends Controller
                 $post->image->save();
             } else {
                 $post->image()->save(
-                    Image::create(['path' => $path])
+                    // Image::create(['path' => $path]) // create is used for the 1-to-1 relation, 
+                                                        // for polymorphic there are 2 more columns:imageable
+                    Image::make(['path' => $path])
                 );
             }
         }
