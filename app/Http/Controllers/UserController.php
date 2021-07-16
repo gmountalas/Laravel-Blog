@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUser;
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -77,9 +79,35 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UpdateUser $request, User $user)
     {
-        dd($user);
+        // Check if the request contains a file, in the field name="avatar"
+        if ($request->hasFile('avatar')) {
+            // Store the file in storage/avatars folder
+            $path = $request->file('avatar')->store('avatars');
+
+            // Chech if there already is an image for the user
+            if ($user->image) {
+                // Modify the image path
+                $user->image->path = $path;
+                // Save changes to the image
+                $user->image->save();
+            } else {
+                // Replaced by shorthand below
+                // $image = new Image();
+                // $image->path = $path;
+                // $user->image()->save($image);
+
+                // Save the image (Polymorphic relation) of the user
+                $user->image()->save(
+                    Image::make(['path' => $path])
+                );
+            }
+        }
+
+        return redirect()
+            ->back()
+            ->withStatus('Profile image was updated!');
     }
 
     /**
