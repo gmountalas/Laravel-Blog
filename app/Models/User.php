@@ -53,6 +53,12 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    // Ellquent 1-to-many Polymorphic relation with Comment model
+    public function commentsOn()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->newest();
+    }
+
     // Eloquent relationship 1-to-1 Polymorphic with Image model: morphOne
     public function image()
     {

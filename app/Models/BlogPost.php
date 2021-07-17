@@ -22,7 +22,11 @@ class BlogPost extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Models\Comment')->newest();
+        // Ellquent 1-to-many Polymorphic relation with Comment model
+        return $this->morphMany(Comment::class, 'commentable')->newest();
+
+        // Eloquent 1-to-many relation with Comment, replace with Polymorphic
+        // return $this->hasMany('App\Models\Comment')->newest();
     }
 
     // Eloquent relationship 1-to-many with User Model
