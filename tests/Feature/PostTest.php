@@ -102,7 +102,7 @@ class PostTest extends TestCase
         $response->assertSeeText('Blog post content');
         $response->assertSeeText('Comments');
         $response->assertSeeText($comment->content);
-        $response->assertSeeText('added');
+        $response->assertSeeText('Added');
     }
 
     public function testStoreValid()

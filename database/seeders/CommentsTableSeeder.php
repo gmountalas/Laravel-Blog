@@ -21,18 +21,25 @@ class CommentsTableSeeder extends Seeder
         // use $posts variable outside of function scope, pick a random blogpost and
         // its id and then assign it to the blog_post_id foreign key and save the comment
         $posts = BlogPost::all();
+        $users = User::all();
 
-        if ($posts->count() === 0) {
-            $this->command->info('There are no blogposts, so no comments will be added');
+        if ($posts->count() === 0 || $users->count() === 0) {
+            $this->command->info('There are no blogposts or users, so no comments will be added');
             return;
         }
 
         $commentsCount = $this->command->ask('How many comments would you like', 150);
 
-        $users = User::all();
-
         Comment::factory()->count($commentsCount)->make()->each(function($comment) use ($posts, $users) {
-            $comment->blog_post_id = $posts->random()->id;
+            $comment->commentable_id = $posts->random()->id;
+            $comment->commentable_type = BlogPost::class;
+            $comment->user_id = $users->random()->id;
+            $comment->save();
+        });
+
+        Comment::factory()->count($commentsCount)->make()->each(function($comment) use ($users) {
+            $comment->commentable_id = $users->random()->id;
+            $comment->commentable_type = User::class;
             $comment->user_id = $users->random()->id;
             $comment->save();
         });
