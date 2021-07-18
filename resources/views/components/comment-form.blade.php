@@ -1,6 +1,6 @@
 <div class="mb-2 mt-2">
     @auth
-        <form action="{{ route('posts.comments.store', ['post' => $post->id]) }}" method="POST">
+        <form action="{{ $route }}" method="POST">
             @csrf
     
             <div class="form-group">
