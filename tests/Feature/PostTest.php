@@ -59,9 +59,16 @@ class PostTest extends TestCase
 
     public function testSee1BlogPostWithComments() {
         // Arrange
+        $user = $this->user();
         $post = $this->createDummyBlogPost();
         Comment::factory(4)->create([
-            'blog_post_id' => $post->id
+            // For Eloquent 1-to-many relationship with BlogPost
+            // 'blog_post_id' => $post->id
+
+            // For Eloquent 1-to-many Polymorphic relationship
+            'commentable_id' => $post->id,
+            'commentable_type' => BlogPost::class,
+            'user_id' => $user->id,
         ]);
 
         // Act
@@ -75,9 +82,16 @@ class PostTest extends TestCase
     // 
     public function testSeeBlogPostContentThatHasComments() {
         // Arrange
+        $user = $this->user();
         $post = $this->createDummyBlogPost();
         $comment = Comment::factory()->create([
-            'blog_post_id' => $post->id
+            // For Eloquent 1-to-many relationship with BlogPost
+            // 'blog_post_id' => $post->id
+
+            // For Eloquent 1-to-many Polymorphic relationship
+            'commentable_id' => $post->id,
+            'commentable_type' => BlogPost::class,
+            'user_id' => $user->id,
         ]);
 
         // Act
