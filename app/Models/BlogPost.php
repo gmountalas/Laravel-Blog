@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Scopes\DeletedAdminScope;
 use App\Scopes\LatestScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -14,7 +15,7 @@ class BlogPost extends Model
 {
     protected $fillable = ['title', 'content', 'user_id'];
 
-    use HasFactory;
+    use HasFactory, Taggable;
 
     // Instead of deleting the record from the database, set a field on that
     // model called deletedAt and Laravel will know the record was soft deleted
@@ -35,15 +36,16 @@ class BlogPost extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Eloquent relationship many-to-many with Tag model
-    public function tags()
-    {
-        // Eloquent many-to-many Polymorphic relation with Tag model
-        return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
+    // Removed to use from Taggable trait
+    // // Eloquent relationship many-to-many with Tag model
+    // public function tags()
+    // {
+    //     // Eloquent many-to-many Polymorphic relation with Tag model
+    //     return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
 
-        // Eloquent many-to-many relation with Tag, replace with Polymorphic
-        // return $this->belongsToMany(Tag::class)->withTimestamps();
-    }
+    //     // Eloquent many-to-many relation with Tag, replace with Polymorphic
+    //     // return $this->belongsToMany(Tag::class)->withTimestamps();
+    // }
 
     // Eloquent relationship 1-to-1 with Image model: hasOne
     // Eloquent relationship 1-to-1 Polymorphic with Image model: morphOne

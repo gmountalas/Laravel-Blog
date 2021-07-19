@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\LatestScope;
+use App\Traits\Taggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Cache;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, Taggable;
 
     // Instead of deleting the record from the database, set a field on that
     // model called deletedAt and Laravel will know the record was soft deleted
@@ -37,11 +38,12 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Eloquent many-to-many Polymorphic relation with Tag model
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
-    }
+    // Removed to use from Taggable trait
+    // // Eloquent many-to-many Polymorphic relation with Tag model
+    // public function tags()
+    // {
+    //     return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
+    // }
 
     public static function boot() 
     {
