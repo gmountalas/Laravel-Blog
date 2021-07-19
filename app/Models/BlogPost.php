@@ -22,7 +22,7 @@ class BlogPost extends Model
 
     public function comments()
     {
-        // Ellquent 1-to-many Polymorphic relation with Comment model
+        // Eloquent 1-to-many Polymorphic relation with Comment model
         return $this->morphMany(Comment::class, 'commentable')->newest();
 
         // Eloquent 1-to-many relation with Comment, replace with Polymorphic
@@ -38,7 +38,11 @@ class BlogPost extends Model
     // Eloquent relationship many-to-many with Tag model
     public function tags()
     {
-        return $this->belongsToMany(Tag::class)->withTimestamps();
+        // Eloquent many-to-many Polymorphic relation with Tag model
+        return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
+
+        // Eloquent many-to-many relation with Tag, replace with Polymorphic
+        // return $this->belongsToMany(Tag::class)->withTimestamps();
     }
 
     // Eloquent relationship 1-to-1 with Image model: hasOne

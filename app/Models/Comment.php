@@ -37,6 +37,12 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
 
+    // Eloquent many-to-many Polymorphic relation with Tag model
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
+    }
+
     public static function boot() 
     {
         parent::boot();
