@@ -55,7 +55,7 @@ class PostCommentController extends Controller
 
         Mail::to($post->user)->send(
             // new CommentPosted($comment)
-            new CommentPostedMarkdown()
+            new CommentPostedMarkdown($comment)
         );
 
         return redirect()->back()
