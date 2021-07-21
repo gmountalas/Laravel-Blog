@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentPosted as EventsCommentPosted;
 use App\Http\Requests\StoreComment;
 use App\Jobs\NotifyUnsersPostWasCommented;
 use App\Jobs\ThrottleMail;
@@ -77,13 +78,15 @@ class PostCommentController extends Controller
         //     new CommentPostedMarkdown($comment)
         // );
 
+        event(new EventsCommentPosted($comment));
 
-        ThrottleMail::dispatch(new CommentPostedMarkdown($comment), $post->user)
-            ->onQueue('high');
+        // Replaced by the aboce even
+        // ThrottleMail::dispatch(new CommentPostedMarkdown($comment), $post->user)
+        //     ->onQueue('high');
 
-        // Run/Dispatch a job
-        NotifyUnsersPostWasCommented::dispatch($comment)
-            ->onQueue('low');
+        // // Run/Dispatch a job
+        // NotifyUnsersPostWasCommented::dispatch($comment)
+        //     ->onQueue('low');
         
         return redirect()->back()
             ->withStatus('Comment was created!');
