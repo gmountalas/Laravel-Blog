@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreComment;
 use App\Jobs\NotifyUnsersPostWasCommented;
+use App\Jobs\ThrottleMail;
 use App\Mail\CommentPosted;
 use App\Mail\CommentPostedMarkdown;
 use App\Models\BlogPost;
@@ -62,10 +63,10 @@ class PostCommentController extends Controller
 
         
         // Queue the sending of the email
-        Mail::to($post->user)->queue(
-            // new CommentPosted($comment)
-            new CommentPostedMarkdown($comment)
-        );
+        // Mail::to($post->user)->queue(
+        //     // new CommentPosted($comment)
+        //     new CommentPostedMarkdown($comment)
+        // );
 
         // To delay the sending of the email
         // $when = now()->addMinutes(1);
@@ -75,6 +76,9 @@ class PostCommentController extends Controller
         //     // new CommentPosted($comment)
         //     new CommentPostedMarkdown($comment)
         // );
+
+
+        ThrottleMail::dispatch(new CommentPostedMarkdown($comment), $post->user);
 
         // Run/Dispatch a job
         NotifyUnsersPostWasCommented::dispatch($comment);
