@@ -45,26 +45,27 @@ class Comment extends Model
     //     return $this->morphToMany(Tag::class, 'taggable')->withTimestamps();
     // }
 
-    public static function boot() 
-    {
-        parent::boot();
+    // public static function boot() 
+    // {
+        // parent::boot();
 
-        static::creating(function (Comment $comment) {
-            // Reset the BlogPost cache when a new comment is added.
-            // For the 1-to-many relation, replace with below Polymorphic
-            // Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
+        // Replaced by CommentObserver
+        // static::creating(function (Comment $comment) {
+        //     // Reset the BlogPost cache when a new comment is added.
+        //     // For the 1-to-many relation, replace with below Polymorphic
+        //     // Cache::tags(['blog-post'])->forget("blog-post-{$comment->blog_post_id}");
             
-            // For polymorphic 1-to-many Check if the comment is for a blogPost before reseting cache
-            // The if is not necessary for a regular 1-to-many
-            if ($comment->commentable_type === BlogPost::class) {
-                Cache::tags(['blog-post'])->forget("blog-post-{$comment->commentable_id}");
-                Cache::tags(['blog-post'])->forget("mostCommented");
-            }
-        });
+        //     // For polymorphic 1-to-many Check if the comment is for a blogPost before reseting cache
+        //     // The if is not necessary for a regular 1-to-many
+        //     if ($comment->commentable_type === BlogPost::class) {
+        //         Cache::tags(['blog-post'])->forget("blog-post-{$comment->commentable_id}");
+        //         Cache::tags(['blog-post'])->forget("mostCommented");
+        //     }
+        // });
 
         // static::addGlobalScope(new LatestScope);
 
-    }
+    // }
 
     public function scopeNewest(Builder $query)
     {

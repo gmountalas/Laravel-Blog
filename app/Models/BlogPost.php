@@ -81,22 +81,23 @@ class BlogPost extends Model
 
         // static::addGlobalScope(new LatestScope);
 
-        // Soft delete the child relations (comments) of the BlogPost Model
-        // when a BlogPost instance is deleted
-        static::deleting(function (BlogPost $blogPost) {
-            $blogPost->comments()->delete();
-            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
-        });
+        // Replaced by BlogPostObserver
+        // // Soft delete the child relations (comments) of the BlogPost Model
+        // // when a BlogPost instance is deleted
+        // static::deleting(function (BlogPost $blogPost) {
+        //     $blogPost->comments()->delete();
+        //     Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
+        // });
 
-        static::updating(function (BlogPost $blogPost) {
-            Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
-        });
+        // static::updating(function (BlogPost $blogPost) {
+        //     Cache::tags(['blog-post'])->forget("blog-post-{$blogPost->id}");
+        // });
 
-        // Restore from soft deletion the child relation (comments) of the
-        // BlogPost Model when a BlogPost instance is restored
-        static::restoring(function (BlogPost $blogPost) {
-            $blogPost->comments()->restore();
-        });
+        // // Restore from soft deletion the child relation (comments) of the
+        // // BlogPost Model when a BlogPost instance is restored
+        // static::restoring(function (BlogPost $blogPost) {
+        //     $blogPost->comments()->restore();
+        // });
     }
 
 }
