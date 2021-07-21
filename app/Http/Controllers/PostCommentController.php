@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreComment;
+use App\Jobs\NotifyUnsersPostWasCommented;
 use App\Mail\CommentPosted;
 use App\Mail\CommentPostedMarkdown;
 use App\Models\BlogPost;
@@ -61,19 +62,22 @@ class PostCommentController extends Controller
 
         
         // Queue the sending of the email
-        // Mail::to($post->user)->queue(
+        Mail::to($post->user)->queue(
+            // new CommentPosted($comment)
+            new CommentPostedMarkdown($comment)
+        );
+
+        // To delay the sending of the email
+        // $when = now()->addMinutes(1);
+         // Queue the sending of the email
+        //  Mail::to($post->user)->later(
+        //      $when,
         //     // new CommentPosted($comment)
         //     new CommentPostedMarkdown($comment)
         // );
 
-        // To delay the sending of the email
-        $when = now()->addMinutes(1);
-         // Queue the sending of the email
-         Mail::to($post->user)->later(
-             $when,
-            // new CommentPosted($comment)
-            new CommentPostedMarkdown($comment)
-        );
+        // Run/Dispatch a job
+        NotifyUnsersPostWasCommented::dispatch($comment);
         
         return redirect()->back()
             ->withStatus('Comment was created!');
