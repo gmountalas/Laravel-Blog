@@ -53,11 +53,28 @@ class PostCommentController extends Controller
 
         // return redirect()->back();
 
-        Mail::to($post->user)->send(
+        // Send mail immediately
+        // Mail::to($post->user)->send(
+        //     // new CommentPosted($comment)
+        //     new CommentPostedMarkdown($comment)
+        // );
+
+        
+        // Queue the sending of the email
+        // Mail::to($post->user)->queue(
+        //     // new CommentPosted($comment)
+        //     new CommentPostedMarkdown($comment)
+        // );
+
+        // To delay the sending of the email
+        $when = now()->addMinutes(1);
+         // Queue the sending of the email
+         Mail::to($post->user)->later(
+             $when,
             // new CommentPosted($comment)
             new CommentPostedMarkdown($comment)
         );
-
+        
         return redirect()->back()
             ->withStatus('Comment was created!');
     }
