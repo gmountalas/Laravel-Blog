@@ -59,7 +59,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $counter = new Counter();
+        // $counter = new Counter();
+        // Instead of creating an instance of the class, resolve it from
+        // the Service Container where it has been bound
+        $counter = resolve(Counter::class);
 
         return view('users.show', [
             'user' => $user,

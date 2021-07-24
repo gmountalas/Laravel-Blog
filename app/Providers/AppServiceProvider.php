@@ -7,6 +7,7 @@ use App\Models\BlogPost;
 use App\Models\Comment;
 use App\Observers\BlogPostObserver;
 use App\Observers\CommentObserver;
+use App\Services\Counter;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,5 +36,10 @@ class AppServiceProvider extends ServiceProvider
         // Register the BlogPostObserver to be used when a Blogpost is created etc.
         BlogPost::observe(BlogPostObserver::class);
         Comment::observe(CommentObserver::class);
+
+        // Register the Counter Service to the Service Container via the Service Provider
+        $this->app->singleton(Counter::class, function ($app) {
+            return new Counter(env('COUNTER_TIMEOUT'));
+        });
     }
 }
