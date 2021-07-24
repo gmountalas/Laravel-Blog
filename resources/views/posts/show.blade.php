@@ -35,8 +35,10 @@
 
             <x-tags :tags="$post->tags"></x-tags>
             
-            <p>Currently read by {{ $counter }} people</p>
-
+            {{-- <p>Currently read by {{ $counter }} people</p> --}}
+            {{-- Replaces the above --}}
+            <p>@choice('messages.people.reading', $counter)</p>
+            
             {{-- Implement the comments list --}}
             <h4>Comments</h4>
 
