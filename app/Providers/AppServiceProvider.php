@@ -41,5 +41,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Counter::class, function ($app) {
             return new Counter(env('COUNTER_TIMEOUT'));
         });
+
+        // The Services inside the Service Container might need primitive values
+        // or Classes, which are also Services, or both. In this case since we 
+        // only need a primitive value instead of a singleton we can tell Laravel
+        // that whenever it needs to inject a Class of a certain type it should pass
+        // a specific value for a specific variable. Replaces the above binding
+        // $this->app->when(Counter::class)
+        //     ->needs('$timeout')
+        //     ->give(env('COUNTER_TIMEOUT'));
     }
 }

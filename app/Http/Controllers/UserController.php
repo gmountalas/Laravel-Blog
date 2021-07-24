@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function __construct()
+    private $counter;
+
+    public function __construct(Counter $counter)
     {
         // Only authenticated users can view other user profile
         $this->middleware('auth');
@@ -18,6 +20,8 @@ class UserController extends Controller
         // Authorize certain actions: ex. for the User model with parameter name
         // user, use the registered model Policy for this particular model
         $this->authorizeResource(User::class, 'user');
+
+        $this->counter = $counter;
     }
 
     /**
@@ -62,11 +66,13 @@ class UserController extends Controller
         // $counter = new Counter();
         // Instead of creating an instance of the class, resolve it from
         // the Service Container where it has been bound
-        $counter = resolve(Counter::class);
+        // $counter = resolve(Counter::class);
+        // No longer need to resolve the class, it is passed via Dependency
+        // Injection in the constructor
 
         return view('users.show', [
             'user' => $user,
-            'counter' =>$counter->increment("user-{$user->id}")
+            'counter' =>$this->counter->increment("user-{$user->id}")
         ]);
     }
 

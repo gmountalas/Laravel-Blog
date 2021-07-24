@@ -15,11 +15,14 @@ use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
+    private $counter;
 
-    public function __construct()
+    public function __construct(Counter $counter)
     {
         $this->middleware('auth')
         ->only(['create', 'store', 'edit', 'update', 'destroy']);
+
+        $this->counter = $counter;
     }
 
     /**
@@ -169,11 +172,13 @@ class PostsController extends Controller
         // $counter = new Counter();
         // Instead of creating an instance of the class, resolve it from
         // the Service Container where it has been bound
-        $counter = resolve(Counter::class);
+        // $counter = resolve(Counter::class);
+        // No longer need to resolve the class, it is passed via Dependency
+        // Injection in the constructor
 
         return view('posts.show', [
             'post' => $blogPost,
-            'counter' =>$counter->increment("blog-post-{$id}", ['blog-post']),
+            'counter' =>$this->counter->increment("blog-post-{$id}", ['blog-post']),
         ]);
     }
 
