@@ -26,7 +26,7 @@
 
 <div class="mb-3">
     @can('update', $post)
-        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">Edit</a> 
+        <a href="{{ route('posts.edit', ['post' => $post->id]) }}" class="btn btn-primary">@lang('Edit')</a> 
     @endcan
     @if (!$post->trashed())
         @can('delete', $post)

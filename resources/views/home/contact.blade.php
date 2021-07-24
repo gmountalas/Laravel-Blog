@@ -3,8 +3,8 @@
 @section('title', 'Contact page')
 
 @section('content')
-    <h1>Contact page</h1>
-    <p> Hello from Contact Page!</p>  
+    <h1>@lang('Contact')</h1>
+    <p> @lang('Hello this is contact!')</p>  
     
     @can('home.secret')
         <p>

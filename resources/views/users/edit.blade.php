@@ -15,19 +15,29 @@
 
                 <div class="card mt-4">
                     <div class="card-body">
-                        <h6>Upload a different photo</h6>
+                        <h6>@lang('Upload a different photo')</h6>
                         <input type="file" name="avatar" class="form-control-file">
                     </div>
                 </div>
             </div>
             <div class="col-8">
                 <div class="form-group">
-                    <label>Name</label>
+                    <label>@lang('Name:')</label>
                     <input type="text" name="name" value="" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>@lang('Language:')</label>
+                    <select name="locale" class="form-control">
+                        @foreach (App\Models\User::LOCALES as $locale => $label)
+                            <option value="{{ $locale }}" {{ $user->locale !== $locale ?: 'selected' }}>
+                                {{ $label }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
                 <x-errors></x-errors>
                 <div class="form-group">
-                    <input type="submit" value="Save Changes" class="btn btn-primary">
+                    <input type="submit" value="@lang('Save changes')" class="btn btn-primary">
                 </div>
             </div>
         </div>

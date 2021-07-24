@@ -13,7 +13,7 @@
             @endif
                 {{ $post->title }}
                 <x-badge show="{{ now()->diffInMinutes($post->created_at) < 5  }}" type="primary">
-                    Brand New BlogPost
+                    @lang('Brand new Post!')
                 </x-badge>
             @if ($post->image)
                     </h1>
@@ -30,7 +30,7 @@
             <x-updated :date="$post->created_at" :name="$post->user->name" >
             </x-updated>
             <x-updated :date="$post->updated_at" >
-                Updated
+                @lang('Updated')
             </x-updated>
 
             <x-tags :tags="$post->tags"></x-tags>
@@ -40,7 +40,7 @@
             <p>@choice('messages.people.reading', $counter)</p>
             
             {{-- Implement the comments list --}}
-            <h4>Comments</h4>
+            <h4>@lang('Comments')</h4>
 
             <x-comment-form :route="route('posts.comments.store', ['post' => $post->id])">
             </x-comment-form>

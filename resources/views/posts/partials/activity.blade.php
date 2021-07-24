@@ -18,22 +18,22 @@
             </ul>
         </div> --}}
         <x-card-comp 
-            title="Most Commented" 
-            subtitle="What people are currently talking about" 
+            title="{{ __('Most Commented') }}" 
+            subtitle="{{ __('What people are currently talking about') }}" 
             :items="collect($mostCommented)->pluck('title')">
         </x-card-comp>
     </div>
     <div class="row mt-4">
         <x-card-comp 
-            title="Most Active" 
-            subtitle="Users with most posts written" 
+            title="{{ __('Most Active') }}" 
+            subtitle="{{ __('Writers with most posts written') }}" 
             :items="collect($mostActive)->pluck('name')">
         </x-card-comp>
     </div>
     <div class="row mt-4">
         <x-card-comp 
-            title="Most Active Last Month" 
-            subtitle="Users with most posts written in the last month" 
+            title="{{ __('Most Active Last Month') }}" 
+            subtitle="{{ __('Users with most posts written in the month') }}" 
             :items="collect($mostActiveLastMonth)->pluck('name')">
         </x-card-comp>
     </div>

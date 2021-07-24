@@ -7,11 +7,11 @@
                 <textarea class="form-control" id="content" name="content" ></textarea>
             </div>
     
-            <div><input type="submit" value="Add Comment!" class="btn btn-primary btn-block"></div>
+            <div><input type="submit" value="@lang('Add comment')" class="btn btn-primary btn-block"></div>
         </form>
         <x-errors></x-errors>
     @else
-        <a href="{{ route('login') }}">Sign in</a> to post comments!
+        <a href="{{ route('login') }}">@lang('Sign-in')</a> @lang('to post comments!')
     @endauth
 </div>
 <hr>
