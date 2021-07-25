@@ -26,7 +26,7 @@ class PostCommentController extends Controller
      */
     public function index(BlogPost $post)
     {
-        return $post->comments;
+        return $post->comments()->with('user')->get();
     }
 
     /**

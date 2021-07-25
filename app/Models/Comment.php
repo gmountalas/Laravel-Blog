@@ -20,7 +20,7 @@ class Comment extends Model
 
     protected $fillable = ['user_id', 'content'];
 
-    protected $hidden = ['deleted_at', 'commentable_type', 'commentable_id'];
+    protected $hidden = ['deleted_at', 'commentable_type', 'commentable_id', 'user_id'];
     
     // Eloquent 1-to-many Polymorphic relation 
     public function commentable()
