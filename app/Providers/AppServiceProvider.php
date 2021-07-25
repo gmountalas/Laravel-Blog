@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\CounterContract;
 use App\Http\ViewComposers\ActivityComposer;
 use App\Models\BlogPost;
 use App\Models\Comment;
@@ -46,11 +47,16 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
+        $this->app->bind(
+            CounterContract::class,
+            Counter::class
+        );
+
         // The Services inside the Service Container might need primitive values
         // or Classes, which are also Services, or both. In this case since we 
         // only need a primitive value instead of a singleton we can tell Laravel
         // that whenever it needs to inject a Class of a certain type it should pass
-        // a specific value for a specific variable. Replaces the above binding
+        // a specific value for a specific variable. Replaces the above singleton
         // $this->app->when(Counter::class)
         //     ->needs('$timeout')
         //     ->give(env('COUNTER_TIMEOUT'));
