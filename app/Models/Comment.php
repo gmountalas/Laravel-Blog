@@ -19,6 +19,8 @@ class Comment extends Model
     use SoftDeletes;
 
     protected $fillable = ['user_id', 'content'];
+
+    protected $hidden = ['deleted_at', 'commentable_type', 'commentable_id'];
     
     // Eloquent 1-to-many Polymorphic relation 
     public function commentable()
