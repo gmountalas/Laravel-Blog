@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\CommentPosted as EventsCommentPosted;
 use App\Http\Requests\StoreComment;
+use App\Http\Resources\Comment as CommentResource;
 use App\Jobs\NotifyUnsersPostWasCommented;
 use App\Jobs\ThrottleMail;
 use App\Mail\CommentPosted;
@@ -26,6 +27,8 @@ class PostCommentController extends Controller
      */
     public function index(BlogPost $post)
     {
+        // return new CommentResource($post->comments->first());
+        return CommentResource::collection($post->comments);
         return $post->comments()->with('user')->get();
     }
 
