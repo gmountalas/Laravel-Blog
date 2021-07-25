@@ -39,7 +39,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Register the Counter Service to the Service Container via the Service Provider
         $this->app->singleton(Counter::class, function ($app) {
-            return new Counter(env('COUNTER_TIMEOUT'));
+            return new Counter(
+                $app->make('Illuminate\Contracts\Cache\Factory'),
+                $app->make('Illuminate\Contracts\Session\Session'),
+                env('COUNTER_TIMEOUT')
+            );
         });
 
         // The Services inside the Service Container might need primitive values
