@@ -24,9 +24,9 @@ class PostCommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(BlogPost $post)
     {
-        //
+        return $post->comments;
     }
 
     /**

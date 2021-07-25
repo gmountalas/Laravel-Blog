@@ -53,7 +53,7 @@ Route::resource('posts', PostsController::class);
     // ->only(['index', 'show', 'create', 'store', 'edit', 'update']);
 Route::get('/posts/tag/{tag}', [PostTagController::class, 'index'])->name('posts.tags.index');
 
-Route::resource('posts.comments', PostCommentController::class)->only(['store']);
+Route::resource('posts.comments', PostCommentController::class)->only(['index','store']);
 Route::resource('users.comments', UserCommentController::class)->only(['store']);
 Route::resource('users', UserController::class)->only(['show', 'edit', 'update']);
 
