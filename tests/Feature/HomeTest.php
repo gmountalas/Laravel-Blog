@@ -12,8 +12,8 @@ class HomeTest extends TestCase
     {
         $response = $this->get('/');
 
-        $response->assertSeeText('Hello World');
-        $response->assertSeeText('Hello from Home Page');
+        $response->assertSeeText('Hello John');
+        $response->assertSeeText('Welcome to Laravel!');
 
     }
 
@@ -22,7 +22,7 @@ class HomeTest extends TestCase
         $response = $this->get('/contact');
 
         $response->assertSeeText('Contact page');
-        $response->assertSeeText('Hello from Contact Page!');
+        $response->assertSeeText('Hello this is contact!');
 
     }
 

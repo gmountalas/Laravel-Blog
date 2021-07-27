@@ -21,7 +21,7 @@ class PostTest extends TestCase
     {
         $response = $this->get('/posts');
 
-        $response->assertSeeText('No posts found!');
+        $response->assertSeeText('No blog posts yet!');
     }
 
     private function createDummyBlogPost($userId = null): BlogPost
@@ -50,7 +50,7 @@ class PostTest extends TestCase
         // Assert
         $response->assertSeeText('New title');
         // Assert for no comments message directly adter blogpost creation
-        $response->assertSeeText('No comments yet!');
+        $response->assertSeeText('No comments yet');
 
         $this->assertDatabaseHas('blog_posts', [
             'title' => 'New title'
